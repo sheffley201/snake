@@ -9,15 +9,15 @@ const snake = Array.from(document.querySelectorAll('.snake-section'));
 const positions = [{xPos: 260, yPos: 240}, {xPos: 250, yPos: 240}, {xPos: 240, yPos: 240}];
 
 // Set snake direction initially to left, so user can't go left at first
-let initialDir = LEFT_DIR;
+let initialDir = RIGHT_DIR;
 let newDir;
 let moveTime;
 
 const changeDir = () => {
   // Change the direction of the snake
-  //if (newDir == initialDir) return;
 
   newDir = event.keyCode;
+
   if (newDir != initialDir) {
     if (newDir == LEFT_DIR && initialDir != RIGHT_DIR) {
       initialDir = newDir;
@@ -43,7 +43,7 @@ const moveSnake = () => {
   let firstPos = positions[0];
   let lastPos = positions[positions.length - 1];
   let lastSnake = snake[snake.length - 1];
-  if (newDir == RIGHT_DIR) {
+  if (initialDir == RIGHT_DIR) {
     lastPos.xPos = firstPos.xPos + 10;
     lastPos.yPos = firstPos.yPos;
     positions.unshift(lastPos);
@@ -52,7 +52,7 @@ const moveSnake = () => {
     lastSnake.style.top = lastPos.yPos + 'px';
     snake.unshift(lastSnake);
     snake.pop();
-  } else if (newDir == LEFT_DIR) {
+  } else if (initialDir == LEFT_DIR) {
     lastPos.xPos = firstPos.xPos - 10;
     lastPos.yPos = firstPos.yPos;
     positions.unshift(lastPos);
@@ -61,7 +61,7 @@ const moveSnake = () => {
     lastSnake.style.top = lastPos.yPos + 'px';
     snake.unshift(lastSnake);
     snake.pop();
-  } else if (newDir == UP_DIR) {
+  } else if (initialDir == UP_DIR) {
     lastPos.yPos = firstPos.yPos - 10;
     lastPos.xPos = firstPos.xPos;
     positions.unshift(lastPos);
@@ -70,7 +70,7 @@ const moveSnake = () => {
     lastSnake.style.left = lastPos.xPos + 'px';
     snake.unshift(lastSnake);
     snake.pop();
-  } else if (newDir == DOWN_DIR) {
+  } else if (initialDir == DOWN_DIR) {
     lastPos.yPos = firstPos.yPos + 10;
     lastPos.xPos = firstPos.xPos;
     positions.unshift(lastPos);
@@ -102,3 +102,4 @@ const newApple = function() {
   console.log(x + ", " + y);
 }
 newApple();
+moveSnake();
