@@ -24,3 +24,16 @@ const changeDir = (newDir) => {
     initialDir = newDir;
   }
 };
+//pull apple element from HTML
+const apple = document.querySelector('.apple');
+
+const newApple = function() {
+  //random x coordinate
+  let x = Math.floor(Math.random() * 50) * 10;
+  //random y coordinate
+  let y = Math.floor(Math.random() * 50) * 10;
+  //set new coordinates for apple
+  apple.style.top = y + 'px';
+  apple.style.left = x + 'px';
+  console.log(x + ", " + y);
+}
