@@ -37,3 +37,8 @@ const newApple = function() {
   apple.style.left = x + 'px';
   console.log(x + ", " + y);
 }
+<<<<<<< HEAD
+=======
+
+newApple();
+>>>>>>> 030b7c3... Removed test event listener
