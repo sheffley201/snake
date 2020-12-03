@@ -28,6 +28,7 @@ const changeDir = (newDir) => {
 const apple = document.querySelector('.apple');
 
 const newApple = function() {
+  //while x and y are not both equal to x and y of a snake section
   //random x coordinate
   let x = Math.floor(Math.random() * 50) * 10;
   //random y coordinate
