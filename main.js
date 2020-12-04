@@ -93,29 +93,15 @@ const moveSnake = () => {
 }
 //create function to add the snake longer
 const longerSnake = () => {
+  //create new snake section
   const newSnake = document.createElement('div');
   newSnake.className = 'snake-section';
   snake.push(newSnake);
-  let newX;
-  let newY;
   let lastCoords = positions[positions.length - 1];
-  let secondLastCoords = positions[positions.length - 2];
-  if (lastCoords.xPos < secondLastCoords.xPos) {
-    newX = lastCoords.xPos - 10;
-    newY = lastCoords.yPos;
-  } else if (lastCoords.xPos > secondLastCoords.xPos) {
-    newX = lastCoords.xPos + 10;
-    newY = lastCoords.yPos;
-  } else if (lastCoords.yPos < secondLastCoords.yPos) {
-    newX = lastCoords.xPos;
-    newY = lastCoords.yPos - 10;
-  } else if (lastCoords.yPos > secondLastCoords.yPos) {
-    newX = lastCoords.xPos;
-    newY = lastCoords.yPos + 10;
-  }
-  newSnake.style.top = newY;
-  newSnake.style.left = newX;
-  positions.push({xPos: newX, yPos: newY});
+  //set determined coordinates
+  newSnake.style.top = lastCoords.xPos + 'px';
+  newSnake.style.left = lastCoords.yPos + 'px';
+  positions.push({xPos: lastCoords.xPos, yPos: lastCoords.yPos});
   gameArea.appendChild(newSnake);
 }
 
@@ -124,15 +110,31 @@ window.addEventListener('keydown', changeDir);
 const apple = document.querySelector('.apple');
 let appleX;
 let appleY;
+let validPos = false;
 
 const newApple = function() {
-  //random x coordinate
-  appleX = Math.floor(Math.random() * 50) * 10;
-  //random y coordinate
-  appleY = Math.floor(Math.random() * 50) * 10;
+  do {
+    //random x coordinate
+    appleX = Math.floor(Math.random() * 50) * 10;
+    //random y coordinate
+    appleY = Math.floor(Math.random() * 50) * 10;
+    isValid();
+    console.log(appleX + " " + appleY);
+  } while (!validPos);
   //set new coordinates for apple
   apple.style.top = appleY + 'px';
   apple.style.left = appleX + 'px';
+  validPos = false;
+}
+const isValid = () => {
+  for (let coord of positions) {
+    if (appleX == coord.xPos && appleY == coord.yPos) {
+      validPos = false;
+      return;
+    } else {
+      validPos = true;
+    }
+  }
 }
 //create function to check if the user has gotten an apple
 const didEatApple = () => {
@@ -144,3 +146,6 @@ const didEatApple = () => {
 }
 newApple();
 moveSnake();
+for (let i = 0; i < 500; i++) {
+  longerSnake();
+}
