@@ -87,6 +87,7 @@ const moveSnake = () => {
     snake.unshift(lastSnake);
     snake.pop();
   }
+  //move the snake every tenth of a second
   moveTime = setTimeout(() => {
     moveSnake();
   }, 100);
@@ -98,7 +99,7 @@ const longerSnake = () => {
   newSnake.className = 'snake-section';
   snake.push(newSnake);
   let lastCoords = positions[positions.length - 1];
-  //set determined coordinates
+  //set coordinates for new section as the same as the end 
   newSnake.style.top = lastCoords.xPos + 'px';
   newSnake.style.left = lastCoords.yPos + 'px';
   positions.push({xPos: lastCoords.xPos, yPos: lastCoords.yPos});
@@ -111,13 +112,14 @@ const apple = document.querySelector('.apple');
 let appleX;
 let appleY;
 let validPos = false;
-
+//function to randomly place the apple
 const newApple = function() {
   do {
     //random x coordinate
     appleX = Math.floor(Math.random() * 50) * 10;
     //random y coordinate
     appleY = Math.floor(Math.random() * 50) * 10;
+    //check if the new coordinates are good
     isValid();
   } while (!validPos);
   //set new coordinates for apple
@@ -125,6 +127,7 @@ const newApple = function() {
   apple.style.left = appleX + 'px';
   validPos = false;
 }
+//function to check if the position of the apple is not where the snake is
 const isValid = () => {
   for (let coord of positions) {
     if (appleX == coord.xPos && appleY == coord.yPos) {
@@ -143,5 +146,6 @@ const didEatApple = () => {
     longerSnake();
   }
 }
+//place an apple randomly and start the snake moving
 newApple();
 moveSnake();
