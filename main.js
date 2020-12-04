@@ -15,10 +15,11 @@ let moveTime;
 
 const changeDir = () => {
   // Change the direction of the snake
-
+  //set newDir to the keykode pressed
   newDir = event.keyCode;
-
+  //only if the key pressed is not the same as the previous key pressed
   if (newDir != initialDir) {
+    //don't allow the snake to go the opposite direction as it's alread going
     if (newDir == LEFT_DIR && initialDir != RIGHT_DIR) {
       initialDir = newDir;
     } else if (newDir == UP_DIR && initialDir != DOWN_DIR) {
@@ -31,18 +32,21 @@ const changeDir = () => {
     } else if (newDir == DOWN_DIR && initialDir != UP_DIR) {
       initialDir = newDir;
     }
+    //clear timeout to stop previous snake direction from continuing
     clearTimeout(moveTime);
+    //move the snake with the new direction
     moveSnake();
   }
 
 
 };
-
+//create funtion to move the snake
 const moveSnake = () => {
-  console.log('moving');
+  //pull necessary values from arrays
   let firstPos = positions[0];
   let lastPos = positions[positions.length - 1];
   let lastSnake = snake[snake.length - 1];
+  //set new coordinates for the ending snake section, and send it to the front of the array
   if (initialDir == RIGHT_DIR) {
     lastPos.xPos = firstPos.xPos + 10;
     lastPos.yPos = firstPos.yPos;
@@ -85,9 +89,7 @@ const moveSnake = () => {
   }, 100);
 }
 
-//changeDir(initialDir);
 window.addEventListener('keydown', changeDir);
-//window.addEventListener('keydown', )
 //pull apple element from HTML
 const apple = document.querySelector('.apple');
 
