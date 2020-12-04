@@ -7,6 +7,7 @@ const DOWN_DIR = 40;
 //pull snake from html
 const snake = Array.from(document.querySelectorAll('.snake-section'));
 const positions = [{xPos: 260, yPos: 240}, {xPos: 250, yPos: 240}, {xPos: 240, yPos: 240}];
+const gameArea = document.querySelector('.game-container');
 
 // Set snake direction initially to left, so user can't go left at first
 let initialDir = RIGHT_DIR;
@@ -42,6 +43,8 @@ const changeDir = () => {
 };
 //create funtion to move the snake
 const moveSnake = () => {
+  //check for apple
+  didEatApple();
   //pull necessary values from arrays
   let firstPos = positions[0];
   let lastPos = positions[positions.length - 1];
@@ -88,20 +91,56 @@ const moveSnake = () => {
     moveSnake();
   }, 100);
 }
+//create function to add the snake longer
+const longerSnake = () => {
+  const newSnake = document.createElement('div');
+  newSnake.className = 'snake-section';
+  snake.push(newSnake);
+  let newX;
+  let newY;
+  let lastCoords = positions[positions.length - 1];
+  let secondLastCoords = positions[positions.length - 2];
+  if (lastCoords.xPos < secondLastCoords.xPos) {
+    newX = lastCoords.xPos - 10;
+    newY = lastCoords.yPos;
+  } else if (lastCoords.xPos > secondLastCoords.xPos) {
+    newX = lastCoords.xPos + 10;
+    newY = lastCoords.yPos;
+  } else if (lastCoords.yPos < secondLastCoords.yPos) {
+    newX = lastCoords.xPos;
+    newY = lastCoords.yPos - 10;
+  } else if (lastCoords.yPos > secondLastCoords.yPos) {
+    newX = lastCoords.xPos;
+    newY = lastCoords.yPos + 10;
+  }
+  newSnake.style.top = newY;
+  newSnake.style.left = newX;
+  positions.push({xPos: newX, yPos: newY});
+  gameArea.appendChild(newSnake);
+}
 
 window.addEventListener('keydown', changeDir);
 //pull apple element from HTML
 const apple = document.querySelector('.apple');
+let appleX;
+let appleY;
 
 const newApple = function() {
   //random x coordinate
-  let x = Math.floor(Math.random() * 50) * 10;
+  appleX = Math.floor(Math.random() * 50) * 10;
   //random y coordinate
-  let y = Math.floor(Math.random() * 50) * 10;
+  appleY = Math.floor(Math.random() * 50) * 10;
   //set new coordinates for apple
-  apple.style.top = y + 'px';
-  apple.style.left = x + 'px';
-  console.log(x + ", " + y);
+  apple.style.top = appleY + 'px';
+  apple.style.left = appleX + 'px';
+}
+//create function to check if the user has gotten an apple
+const didEatApple = () => {
+  snakePos = positions[0];
+  if (snakePos.xPos == appleX && snakePos.yPos == appleY) {
+    newApple();
+    longerSnake();
+  }
 }
 newApple();
 moveSnake();
