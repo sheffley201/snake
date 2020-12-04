@@ -119,7 +119,6 @@ const newApple = function() {
     //random y coordinate
     appleY = Math.floor(Math.random() * 50) * 10;
     isValid();
-    console.log(appleX + " " + appleY);
   } while (!validPos);
   //set new coordinates for apple
   apple.style.top = appleY + 'px';
@@ -146,6 +145,3 @@ const didEatApple = () => {
 }
 newApple();
 moveSnake();
-for (let i = 0; i < 500; i++) {
-  longerSnake();
-}
