@@ -13,6 +13,7 @@ const gameArea = document.querySelector('.game-container');
 let initialDir = RIGHT_DIR;
 let newDir;
 let moveTime;
+let gameLost = false;
 
 const changeDir = () => {
   // Change the direction of the snake
@@ -43,54 +44,59 @@ const changeDir = () => {
 };
 //create funtion to move the snake
 const moveSnake = () => {
-  //check for apple
-  didEatApple();
-  //pull necessary values from arrays
-  let firstPos = positions[0];
-  let lastPos = positions[positions.length - 1];
-  let lastSnake = snake[snake.length - 1];
-  //set new coordinates for the ending snake section, and send it to the front of the array
-  if (initialDir == RIGHT_DIR) {
-    lastPos.xPos = firstPos.xPos + 10;
-    lastPos.yPos = firstPos.yPos;
-    positions.unshift(lastPos);
-    positions.pop();
-    lastSnake.style.left = lastPos.xPos + 'px';
-    lastSnake.style.top = lastPos.yPos + 'px';
-    snake.unshift(lastSnake);
-    snake.pop();
-  } else if (initialDir == LEFT_DIR) {
-    lastPos.xPos = firstPos.xPos - 10;
-    lastPos.yPos = firstPos.yPos;
-    positions.unshift(lastPos);
-    positions.pop();
-    lastSnake.style.left = lastPos.xPos + 'px';
-    lastSnake.style.top = lastPos.yPos + 'px';
-    snake.unshift(lastSnake);
-    snake.pop();
-  } else if (initialDir == UP_DIR) {
-    lastPos.yPos = firstPos.yPos - 10;
-    lastPos.xPos = firstPos.xPos;
-    positions.unshift(lastPos);
-    positions.pop();
-    lastSnake.style.top = lastPos.yPos + 'px';
-    lastSnake.style.left = lastPos.xPos + 'px';
-    snake.unshift(lastSnake);
-    snake.pop();
-  } else if (initialDir == DOWN_DIR) {
-    lastPos.yPos = firstPos.yPos + 10;
-    lastPos.xPos = firstPos.xPos;
-    positions.unshift(lastPos);
-    positions.pop();
-    lastSnake.style.top = lastPos.yPos + 'px';
-    lastSnake.style.left = lastPos.xPos + 'px';
-    snake.unshift(lastSnake);
-    snake.pop();
+  //if the player has not lost the game
+  if (!gameLost) {
+    //check for apple
+    didEatApple();
+    //pull necessary values from arrays
+    let firstPos = positions[0];
+    let lastPos = positions[positions.length - 1];
+    let lastSnake = snake[snake.length - 1];
+    //set new coordinates for the ending snake section, and send it to the front of the array
+    if (initialDir == RIGHT_DIR) {
+      lastPos.xPos = firstPos.xPos + 10;
+      lastPos.yPos = firstPos.yPos;
+      positions.unshift(lastPos);
+      positions.pop();
+      lastSnake.style.left = lastPos.xPos + 'px';
+      lastSnake.style.top = lastPos.yPos + 'px';
+      snake.unshift(lastSnake);
+      snake.pop();
+    } else if (initialDir == LEFT_DIR) {
+      lastPos.xPos = firstPos.xPos - 10;
+      lastPos.yPos = firstPos.yPos;
+      positions.unshift(lastPos);
+      positions.pop();
+      lastSnake.style.left = lastPos.xPos + 'px';
+      lastSnake.style.top = lastPos.yPos + 'px';
+      snake.unshift(lastSnake);
+      snake.pop();
+    } else if (initialDir == UP_DIR) {
+      lastPos.yPos = firstPos.yPos - 10;
+      lastPos.xPos = firstPos.xPos;
+      positions.unshift(lastPos);
+      positions.pop();
+      lastSnake.style.top = lastPos.yPos + 'px';
+      lastSnake.style.left = lastPos.xPos + 'px';
+      snake.unshift(lastSnake);
+      snake.pop();
+    } else if (initialDir == DOWN_DIR) {
+      lastPos.yPos = firstPos.yPos + 10;
+      lastPos.xPos = firstPos.xPos;
+      positions.unshift(lastPos);
+      positions.pop();
+      lastSnake.style.top = lastPos.yPos + 'px';
+      lastSnake.style.left = lastPos.xPos + 'px';
+      snake.unshift(lastSnake);
+      snake.pop();
+    }
+    //check for collision
+    checkCollision();
+    //move the snake every tenth of a second
+    moveTime = setTimeout(() => {
+      moveSnake();
+    }, 100);
   }
-  //move the snake every tenth of a second
-  moveTime = setTimeout(() => {
-    moveSnake();
-  }, 100);
 }
 //create function to add the snake longer
 const longerSnake = () => {
@@ -104,6 +110,23 @@ const longerSnake = () => {
   newSnake.style.left = lastCoords.yPos + 'px';
   positions.push({xPos: lastCoords.xPos, yPos: lastCoords.yPos});
   gameArea.appendChild(newSnake);
+}
+
+//create function to check if the player has run into the wall or itself
+const checkCollision = () => {
+  //take record of where the head of the snake is
+  const snakeHead = positions[0];
+  //if the snake head goes out of bounds, the player loses the game
+  if (snakeHead.xPos >= 500 || snakeHead.xPos < 0 || snakeHead.yPos >= 500 || snakeHead.yPos < 0) {
+    gameLost = true;
+  }
+  //loop over the positions array, execpt for the first one
+  for (let section = 1; section < positions.length; section++) {
+    let currentPos = positions[section];
+    if (snakeHead.xPos == currentPos.xPos && snakeHead.yPos == currentPos.yPos) {
+      gameLost = true;
+    }
+  }
 }
 
 window.addEventListener('keydown', changeDir);
