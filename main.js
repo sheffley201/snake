@@ -145,7 +145,7 @@ let displayscore = document.querySelector('.score');
 const didEatApple = () => {
   snakePos = positions[0];
   if (snakePos.xPos == appleX && snakePos.yPos == appleY) {
-    // increase the score whenever the snake eats an apple and display on the webpage
+    // increase the score whenever the snake eats an apple
     displayscore.innerHTML= ++score;
     newApple();
     longerSnake();
