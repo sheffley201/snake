@@ -48,3 +48,9 @@ h2{
   background-color: red;
   position: absolute;
 }
+
+.game-over {
+  color: white;
+  margin-top: 50%;
+  display: none;
+}

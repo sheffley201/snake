@@ -7,7 +7,9 @@ const DOWN_DIR = 40;
 //pull snake from html
 const snake = Array.from(document.querySelectorAll('.snake-section'));
 const positions = [{xPos: 260, yPos: 240}, {xPos: 250, yPos: 240}, {xPos: 240, yPos: 240}];
+//grab any other necessary elements
 const gameArea = document.querySelector('.game-container');
+const gameOver = document.querySelector('.game-over');
 
 // Set snake direction initially to left, so user can't go left at first
 let initialDir = RIGHT_DIR;
@@ -119,12 +121,15 @@ const checkCollision = () => {
   //if the snake head goes out of bounds, the player loses the game
   if (snakeHead.xPos >= 500 || snakeHead.xPos < 0 || snakeHead.yPos >= 500 || snakeHead.yPos < 0) {
     gameLost = true;
+    gameOver.style.display = 'block';
   }
   //loop over the positions array, execpt for the first one
   for (let section = 1; section < positions.length; section++) {
     let currentPos = positions[section];
+    //if the head of the snake has the same coordinates as one of the trailing snake sections, then the snake has run into itself and the game is over
     if (snakeHead.xPos == currentPos.xPos && snakeHead.yPos == currentPos.yPos) {
       gameLost = true;
+      gameOver.style.display = 'block';
     }
   }
 }
