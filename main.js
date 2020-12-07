@@ -99,7 +99,7 @@ const longerSnake = () => {
   newSnake.className = 'snake-section';
   snake.push(newSnake);
   let lastCoords = positions[positions.length - 1];
-  //set coordinates for new section as the same as the end 
+  //set coordinates for new section as the same as the end
   newSnake.style.top = lastCoords.xPos + 'px';
   newSnake.style.left = lastCoords.yPos + 'px';
   positions.push({xPos: lastCoords.xPos, yPos: lastCoords.yPos});
@@ -138,14 +138,21 @@ const isValid = () => {
     }
   }
 }
+//create a variable for score
+let score=0;
+let displayscore = document.querySelector('.score');
 //create function to check if the user has gotten an apple
 const didEatApple = () => {
   snakePos = positions[0];
   if (snakePos.xPos == appleX && snakePos.yPos == appleY) {
+    // increase the score whenever the snake eats an apple and display on the webpage
+    displayscore.innerHTML= ++score;
     newApple();
     longerSnake();
   }
 }
+
+// more code
 //place an apple randomly and start the snake moving
 newApple();
 moveSnake();
