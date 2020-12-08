@@ -10,12 +10,16 @@ const positions = [{xPos: 260, yPos: 240}, {xPos: 250, yPos: 240}, {xPos: 240, y
 //grab any other necessary elements
 const gameArea = document.querySelector('.game-container');
 const gameOver = document.querySelector('.game-over');
+const resetButton = document.querySelector('.reset-game');
 
 // Set snake direction initially to left, so user can't go left at first
 let initialDir = RIGHT_DIR;
 let newDir;
 let moveTime;
 let gameLost = false;
+//create a variable for score
+let score=0;
+let displayscore = document.querySelector('.score');
 
 const changeDir = () => {
   // Change the direction of the snake
@@ -122,6 +126,7 @@ const checkCollision = () => {
   if (snakeHead.xPos >= 500 || snakeHead.xPos < 0 || snakeHead.yPos >= 500 || snakeHead.yPos < 0) {
     gameLost = true;
     gameOver.style.display = 'block';
+    resetButton.style.display = 'block';
   }
   //loop over the positions array, execpt for the first one
   for (let section = 1; section < positions.length; section++) {
@@ -130,11 +135,37 @@ const checkCollision = () => {
     if (snakeHead.xPos == currentPos.xPos && snakeHead.yPos == currentPos.yPos) {
       gameLost = true;
       gameOver.style.display = 'block';
+      resetButton.style.display = 'block';
     }
   }
 }
 
+const resetGame = () => {
+  resetButton.style.display = 'none';
+  score = 0;
+  displayscore.textContent = score;
+  gameLost = false;
+  gameOver.style.display = 'none';
+  for (let section = snake.length - 1; section >= 3; section--) {
+    gameArea.removeChild(snake[section]);
+    snake.pop();
+    positions.pop();
+  }
+  positions[0].xPos = 260;
+  positions[1].xPos = 250;
+  positions[2].xPos = 240;
+  positions[0].yPos = 240;
+  positions[1].yPos = 240;
+  positions[2].yPos = 240;
+  for (let section = 0; section < 3; section++) {
+    snake[section].style.top = positions[section].yPos + 'px';
+    snake[section].style.left = positions[section].xPos + 'px';
+  }
+  initialDir = RIGHT_DIR;
+  moveSnake();
+}
 window.addEventListener('keydown', changeDir);
+resetButton.addEventListener('click', resetGame);
 //pull apple element from HTML
 const apple = document.querySelector('.apple');
 let appleX;
@@ -166,9 +197,6 @@ const isValid = () => {
     }
   }
 }
-//create a variable for score
-let score=0;
-let displayscore = document.querySelector('.score');
 //create function to check if the user has gotten an apple
 const didEatApple = () => {
   snakePos = positions[0];

@@ -8,6 +8,10 @@ html {
   margin-top: 50px;
 }
 
+body {
+  text-align: center;
+}
+
 h1 {
   text-align: center;
 }
@@ -52,5 +56,13 @@ h2{
 .game-over {
   color: white;
   margin-top: 50%;
+  display: none;
+}
+
+.reset-game {
+  width: auto;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 20px;
   display: none;
 }
