@@ -20,6 +20,8 @@ let gameLost = false;
 //create a variable for score
 let score=0;
 let displayscore = document.querySelector('.score');
+let highScore = document.querySelector('.high-score');
+let highScoreAmount = 0;
 
 const changeDir = () => {
   // Change the direction of the snake
@@ -203,6 +205,11 @@ const didEatApple = () => {
   if (snakePos.xPos == appleX && snakePos.yPos == appleY) {
     // increase the score whenever the snake eats an apple
     displayscore.innerHTML= ++score;
+    //if the current score is higher than the high score, set the high score to the current score
+    if (score > highScoreAmount) {
+      highScoreAmount = score;
+      highScore.textContent = highScoreAmount;
+    }
     newApple();
     longerSnake();
   }
