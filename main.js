@@ -164,6 +164,7 @@ const resetGame = () => {
     snake[section].style.left = positions[section].xPos + 'px';
   }
   initialDir = RIGHT_DIR;
+  newApple();
   moveSnake();
 }
 window.addEventListener('keydown', changeDir);
