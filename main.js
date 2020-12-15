@@ -26,8 +26,10 @@ let highScoreAmount = 0;
 const changeDir = () => {
   // Change the direction of the snake
   //set newDir to the keykode pressed
-  event.preventDefault();
   newDir = event.keyCode;
+  if (newDir == LEFT_DIR || newDir == RIGHT_DIR || newDir == UP_DIR || newDir == DOWN_DIR) {
+    event.preventDefault();
+  }
   //only if the key pressed is not the same as the previous key pressed
   if (newDir != initialDir) {
     //don't allow the snake to go the opposite direction as it's alread going
