@@ -22,6 +22,12 @@ let score=0;
 let displayscore = document.querySelector('.score');
 let highScore = document.querySelector('.high-score');
 let highScoreAmount = 0;
+let storedHighScore = Number(localStorage.getItem('score'));
+if (storedHighScore == null) {
+  localStorage.setItem('score', highScoreAmount);
+}
+highScoreAmount = storedHighScore;
+highScore.textContent = highScoreAmount;
 
 const changeDir = () => {
   // Change the direction of the snake
@@ -213,6 +219,7 @@ const didEatApple = () => {
     if (score > highScoreAmount) {
       highScoreAmount = score;
       highScore.textContent = highScoreAmount;
+      localStorage.setItem('score', highScoreAmount);
     }
     newApple();
     longerSnake();
